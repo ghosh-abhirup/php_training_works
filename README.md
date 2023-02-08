@@ -13,3 +13,4 @@ All of my projects are going to be uploaded with the commit on their working
     - File pointers with fopen. 'r', 'r+', 'w', 'w+', 'a'
     - `fread()` `fwrite()`
     - `fgets()` `fgetc`
+  -  Day 3: `Cookies` `Sessions`
