@@ -14,3 +14,5 @@ All of my projects are going to be uploaded with the commit on their working
     - `fread()` `fwrite()`
     - `fgets()` `fgetc`
   -  Day 3: `Cookies` `Sessions`
+  - Project 1: `Login System`
+  - Project 2: `Forum in php`
