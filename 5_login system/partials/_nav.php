@@ -9,16 +9,16 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/phpw/login system/welcome.php">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/phpw/5_login system/welcome.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/phpw/login system/login.php">Login</a>
+                    <a class="nav-link" href="/phpw/5_login system/login.php">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/phpw/login system/signup.php">Sign up</a>
+                    <a class="nav-link" href="/phpw/5_login system/signup.php">Sign up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/phpw/login system/logout.php">Logout</a>
+                    <a class="nav-link" href="/phpw/5_login system/logout.php">Logout</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">
