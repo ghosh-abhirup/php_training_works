@@ -1,4 +1,7 @@
 <?php
+include("_dbconnect.php");
+session_start();
+
 echo '
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container-fluid">
@@ -20,24 +23,39 @@ echo '
                         aria-expanded="false">
                         Categories
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <ul class="dropdown-menu">';
+
+$sql = "SELECT * FROM `categories`";
+$res = mysqli_query($conn, $sql);
+
+while ($row = mysqli_fetch_assoc($res)) {
+    $id = $row['category_id'];
+    echo '<li><a class="dropdown-item" href="/phpw/6_Forum/threadList.php?catId=' . $id . '">' . $row['category_name'] . '</a></li>';
+}
+
+echo '
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="./contact.php">Contact</a>
                 </li>
-            </ul>
-            <div class="container">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</button>
-            </div>
-            <form class="form-inline d-flex" role="search">
+            </ul>';
+if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] = true) {
+    echo '
+        <div class="container">
+            <button type="button" class="btn btn-outline-light" disabled>Welcome ' . $_SESSION['userEmail'] . '</button>
+            <a role="button" href="partials/_logout.php" class="btn btn-primary">Logout</a>
+        </div>';
+} else {
+    echo '
+        <div class="container">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</button>
+        </div>';
+}
+
+
+echo '<form class="form-inline d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
 
@@ -49,4 +67,9 @@ echo '
 include "partials/_loginModal.php";
 include "partials/_signUpModal.php";
 
+if (isset($_GET['signupsuccess']) && $_GET['signupsuccess'] == "true") {
+    echo '<div class="alert alert-success" role="alert">
+    You are signed in
+  </div>';
+}
 ?>

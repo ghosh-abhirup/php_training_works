@@ -27,19 +27,22 @@
     <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $comment = $_POST['comment'];
+        $comment = str_replace('<', '&lt', $comment);
+        $comment = str_replace('>', '&gt', $comment);
+        $userID = $_SESSION['userId'];
 
-        $sql = "INSERT INTO `comments` (`comment_content`,`thread_id`) 
-            VALUE ('$comment', '$id')";
+        $sql = "INSERT INTO `comments` (`comment_content`,`thread_id`,`comment_by`) 
+            VALUE ('$comment', '$id','$userID')";
         $res = mysqli_query($conn, $sql);
 
         if ($res) {
             echo '<div class="alert alert-success" role="alert">
-    Your comment has been added to the panel
-  </div>';
+                Your comment has been added to the panel
+                </div>';
         } else {
             echo '<div class="alert alert-success" role="alert">
-    Something went wrong
-  </div>';
+                    Something went wrong
+                </div>';
         }
     }
     ?>
@@ -55,19 +58,24 @@
             <button class="btn btn-primary btn-lg disabled" type="button">Learn More</button>
         </div>
     </div>
-
-    <div class="container my-4">
+    <?php
+    if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] = true) {
+        echo '<div class="container my-4">
         <h1>Add a comment</h1>
-        <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+        <form action="' . $_SERVER['REQUEST_URI'] . '" method="post">
             <div class="mb-3">
                 <textarea class="form-control" placeholder="Leave a comment here" name="comment" id="comment"
                     style="height: 100px"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    </div>
-
-
+    </div>';
+    } else {
+        echo '<div class="container my-4"><div class="alert alert-warning" role="alert">
+            Please login to add a comment
+          </div></div>';
+    }
+    ?>
     <div class="container py-4">
         <h1>Comments</h1>
         <div class="d-flex flex-column">
@@ -76,8 +84,16 @@
             $res = mysqli_query($conn, $sql);
 
             while ($row = mysqli_fetch_assoc($res)) {
-                echo '<div class="border border-primary my-2 p-3 rounded">
-                <p class="fw-semibold fs-7">At ' . $row['comment_time'] . '</p>
+                $user = $row['comment_by'];
+                $sql2 = "SELECT `user_email` FROM `users` WHERE `user_id`=$user";
+                $res2 = mysqli_query($conn, $sql2);
+                $row2 = mysqli_fetch_assoc($res2);
+
+                echo '<div class="d-flex flex-column justify-content-between border border-primary my-2 p-3 rounded">
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-dark btn-sm " disabled>' . $row2['user_email'] . '</button>
+                            <button type="button" class="btn btn-dark btn-sm mx-2" disabled>' . $row['comment_time'] . '</button>
+                        </div>
                 <p class="fw-semibold fs-5">' . $row['comment_content'] . '</p>
               </div>';
             }
